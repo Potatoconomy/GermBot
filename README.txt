@@ -36,12 +36,12 @@ dotenv
 nest_asyncio
 pandas
 ###########################################################################################
-IMPORTANT:
+***IMPORTANT:
 
 To get the bot connected to your discord, please follow online instructions (https://realpython.com/how-to-make-a-discord-bot-python/)
 on getting your Discord server Token and guild id. 
 
-Replace my server Token and guild id in the file called .env (File can be opened with a notepad editor)
+Replace my server Token and guild id in a file called .env (File can be opened with a notepad editor).  My .env file is not included for privacy reasons.  I did however include an example .env txt file which you can use as a guide to making your own file named .env  
 ###########################################################################################
 
 

@@ -1,0 +1,6 @@
+##Example .env file
+
+#Save this file as: .env
+
+DISCORD_TOKEN=YOURTOKENHERE
+GUILD = YOURGUILDHERE
