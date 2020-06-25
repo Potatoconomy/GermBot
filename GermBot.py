@@ -7,20 +7,17 @@ Created on Wed Jun  3 12:20:34 2020
 #Make sure current working directory is the folder before DiscordBot
 import os
 cwd = os.getcwd()
-# Dependencies
 import numpy as np
-# import random
 import duden
 import discord
 from dotenv import load_dotenv
 import nest_asyncio
 import asyncio
 nest_asyncio.apply()
-# from discord.ext import commands
 load_dotenv()
 from discord.ext.commands import Bot
-# import csv
 from datetime import datetime
+
 #Other Discord Bot files
 # import synonyms
 import vocabulary
@@ -28,10 +25,11 @@ from helpers import get_vocab_vocab #get_synonym_vocab
 
 '''
 TODO:
-    Short:  
-        Make proper vocab lists.
-        Create a vocab english-german game (also german english)
-        Turn this into a bot class and create a main.py file  --- ehhh
+    :)
+    Short:
+        Sometimes the correct answers are not accepted?????
+        Get ms excel again and fix a lot of the word translations
+        Logging
         Get quit to work during vocab choice questions
         Fix the !help command
             
@@ -119,7 +117,7 @@ async def on_message(message):
    
 
 
-@bot.command(help = '```Provides information about a German word (case sensitive).\n\tUSAGE: !German [german_word]```')
+@bot.command(help = 'Provides information about a German word (case sensitive).\n\tUSAGE: !German [german_word]')
 async def German(ctx, word: str):
     '''
     prints information on discord about a specific german word.
@@ -154,7 +152,7 @@ async def German(ctx, word: str):
 
 
 
-@bot.command(help='```Creates a vocab game! \n\tUSAGE: !GermVocab\n\t[Verbs, Nouns, Adjectives, Custom]\n\t[Easy, Medium, Hard]\n\t[German, English]```')
+@bot.command(help='Creates a vocab game! \n\tUSAGE: !GermVocab\n\t[Verbs, Nouns, Adjectives, Custom]\n\t[Easy, Medium, Hard]\n\t[German, English]')
 async def GermVocab(ctx, vocab_choice='$$$!!!$$$', vocab_diff='$$$!!!$$$', vocab_direction='$$$!!!$$$'):
     '''
     Create an instance of vocabulary game.
@@ -188,6 +186,7 @@ async def GermVocab(ctx, vocab_choice='$$$!!!$$$', vocab_diff='$$$!!!$$$', vocab
         while alive:    
             await user_game.present_vocab()
             alive = await user_game.get_answer()
+            if alive == False: return False
             alive = await user_game.live_check()
         
         return False
@@ -203,7 +202,7 @@ async def GermVocab(ctx, vocab_choice='$$$!!!$$$', vocab_diff='$$$!!!$$$', vocab
     if user_vocab_instance == False:
         user_vocab_instance = True
         
-        await ctx.send(f'```Initiating a game with: {ctx.author}.\nPlease provide the correct translation\nType "Quit" to quit.```')
+        await ctx.send(f'```Initiating a game with: {ctx.author}.\nPlease provide the correct translation\nType "Quit" to quit.\nPress 1 to skip a word.```')
         print(f'vocabchoice: {vocab_choice},{type(vocab_choice)}')
         
         #######################################################################

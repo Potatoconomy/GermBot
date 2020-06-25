@@ -7,6 +7,7 @@ Created on Wed Jun 17 11:21:56 2020
 
 '''
 Vocab Game:
+    :)
     Prompts user with a german or english word.
     User must input corresponding english or german response.
     
@@ -19,10 +20,10 @@ Vocab Game:
                             col2: english words. [great, super, awesome, fantastic, good]
                     
     If german to english is selected:
-        User is shown: 'toll'
+        User is shown: 'toll, super, ausgezeichnet'
         User input must be in: ['great', 'super', 'awesome', 'fantastic', 'good']
     If english to german is selected:
-        User is shown: 'great'
+        User is shown: 'great, super, awesome, fantastic, good'
         User input must be in: ['toll', 'super', 'ausgezeichnet']
         
     if correct: yield next word, 
@@ -45,10 +46,10 @@ Vocab Game:
         end game instance
         
     TODO: Plurality of correct answer(s)??
+            Add spaces after comma separations in germancsv file
             Currently n = 30, hardcoded in.  Could easily be switched to user arg if desired.
                 Locations:  helpers.py--> dfvocab.sample()
                             vocabulary.py--> lifecheck
-        Implement: 'Press "1" to skip.' -- Done.. Fully tested though?
         
         Rework out my CSV vocab sheet... German words could use more synonyms
     
@@ -130,16 +131,19 @@ class Vocabulary():
         
         if self.vocab_direction == 'german':
             correct_answer = answer_fixer(self.vocab['English'].iloc[self.i])
+            correct_answer = [i.lower() for i in correct_answer]
+
             valid_message = False
             while valid_message == False:
                 try:
                     message = await self.bot.wait_for('message', timeout=9.0, check=check)
                     if message.content.lower().startswith('to '): message.content = message.content.lower()[3:]
+                    if message.content.lower().startswith('the '): message.content = message.content.lower()[4:]
                     print(message.content)
                     
                     if message.content.lower() == 'quit':
                         await self.ctx.send(f'```Spiel geendet! Ihr Endergebnis ist: {self.score}/{self.n}.```')
-                        if len(self.wrong) == 3: await self.send(f'```Missed Answers:\n\t{self.wrong[0]/n/tself.wrong[1]/n/tself.wrong[2]}')
+                        if len(self.wrong) == 3: await self.send(f'```Missed Answers:\n\t{self.wrong[0]/n/tself.wrong[1]/n/tself.wrong[2]}```')
                         if len(self.wrong) == 2: await self.ctx.send(f'```Missed Answers:\n\t{self.wrong[0]}\n\t{self.wrong[1]}```')
                         if len(self.wrong) == 1: await self.ctx.send(f'```Missed Answers:\n\t{self.wrong[0]}```')
                         if len(self.wrong) == 0: await self.ctx.send(f'```Nothing Missed! Sehr gut!```')
@@ -162,6 +166,7 @@ class Vocabulary():
                         self.i += 1
                         valid_message = True
                         message = ''
+                        
                 except asyncio.TimeoutError:
                     await self.ctx.send(f'```Die richitige Antworten sind:\n\t{correct_answer}```')
                     self.wrong.append((self.vocab['German'].iloc[self.i],self.vocab['English'].iloc[self.i]))
@@ -172,19 +177,22 @@ class Vocabulary():
             ###Need to add the english direction as well!
         elif self.vocab_direction == 'english': 
             correct_answer = answer_fixer(self.vocab['German'].iloc[self.i])
+            correct_answer = [i.lower() for i in correct_answer]
             valid_message = False
-            
+            print(f'correct: {correct_answer}')
             while valid_message == False:
                 
                 try:
                     message = await self.bot.wait_for('message', timeout=9.0, check=check)
                     
-                    if message.content.lower().startswith('to '): message.content = message.content.lower()[3:]
-                    # print(message.content)
+                    # if message.content.lower().startswith('to '): message.content = message.content.lower()[3:]
+                    # if message.content.lower().startswith('the '): message.content = message.content.lower()[4:]
+
+                    print(message.content.lower())
                     
                     if message.content.lower() == 'quit':
                         await self.ctx.send(f'```Game Over! Your final score is: {self.score}/{self.n}.```')
-                        if len(self.wrong) == 3: await self.send(f'```Missed Answers:\n\t{self.wrong[0]/n/tself.wrong[1]/n/tself.wrong[2]}')
+                        if len(self.wrong) == 3: await self.send(f'```Missed Answers:\n\t{self.wrong[0]/n/tself.wrong[1]/n/tself.wrong[2]}```')
                         if len(self.wrong) == 2: await self.ctx.send(f'```Missed Answers:\n\t{self.wrong[0]}\n\t{self.wrong[1]}```')
                         if len(self.wrong) == 1: await self.ctx.send(f'```Missed Answers:\n\t{self.wrong[0]}```')
                         if len(self.wrong) == 0: await self.ctx.send(f'```Nothing Missed! Sehr gut!```')
