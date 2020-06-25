@@ -76,9 +76,9 @@ minutes) 
 
 ### .env
 
-Once you have a bot Token and your guild name, go into my exampleenv.txt file.
+Once you have a bot Token and your guild name, go into exampleenv.txt file with Notepad++.
 Replace the respective fields with your unique information. Rename this file to
-‘.env’. My .env file is not included for privacy reasons.
+‘.env’ using saveas in Notepad++. This file must become a '.env' filetype. My .env file is not included for privacy reasons.
 
 For further .env reading, please see:
 [\<https://pypi.org/project/python-dotenv/]\>
