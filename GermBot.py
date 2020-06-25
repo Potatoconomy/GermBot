@@ -55,8 +55,8 @@ user_synonym_instance = False
 user_vocab_instance = False
 player = 0
 
-
-def fix_meaning_overview(duden_object_def):
+#%%
+def fix_meaning_overview(duden_object):
     '''
     Duden module does not include examples.
     This creates def_ex which is tuple of (definition,example).
@@ -70,17 +70,33 @@ def fix_meaning_overview(duden_object_def):
     '''
     new_list = []
     def_ex = []
-    for major in duden_object_def[0]:
-        if type(major) != list: major = [major] #some are str, some are list
-        for minor in major:  #definitions are grouped by relative closeness
-            new_list.append(minor)
+    
+    # if duden_object.meaning_overview == None:
+    #     return False
+    
+    if isinstance(duden_object.meaning_overview[0], str):
+        new_list.append(duden_object.meaning_overview[0])
         
-    for c,(maj_,min_) in enumerate(zip(new_list,duden_object_def[1])):
+    else:
+        for major in duden_object.meaning_overview[0]:
+            if type(major) != list: major = [major] #some are str, some are list
+            for minor in major:  #definitions are grouped by relative closeness
+                minor = minor.split(sep='\n')[0]
+                new_list.append(minor)
+    
+    for c,(maj_,min_) in enumerate(zip(new_list,duden_object.meaning_overview[1])):
         def_ex.append((maj_,min_[0]))
-        
+
+    #Get rid of empty definitions
+    def_ex = [(d,e) for (d,e) in def_ex if len(d) > 5]
+    
+    #Get rid of empty examples if multiple def/ex pairs
+    if len(def_ex) > 2:
+        def_ex = [(d,e) for (d,e) in def_ex if len(e) > 5]
+    
     return def_ex
 
-
+#%%
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD')
 BOT_PREFIX = {"!","?"}
@@ -127,14 +143,17 @@ async def German(ctx, word: str):
     duden_obj = duden.get(word)
 
     if duden_obj == None:
+    
         duden_obj = duden.search(word)
+        ''' I can add in a user check for case sensitivity here'''
         if len(duden_obj) == 0: 
             await ctx.send(f'```{word} is not in Duden, ya goof.\n\tPlease remember that duden is case sensitive.```')
             return 
         else:
+            print('else')
             duden_obj = duden_obj[0]
         
-    def_ex = fix_meaning_overview(duden_obj.meaning_overview)
+    def_ex = fix_meaning_overview(duden_obj)
 
     #prioritize more common definitions/exs
     #do not want to overwhelm users and show entire duden page
