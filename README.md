@@ -1,4 +1,4 @@
-\#GermBot
+\# GermBot
 
  
 
@@ -13,11 +13,11 @@ on a specific word that may be used in chat. Maybe one day will a !English
 
  
 
-\#Usage
+\# Usage
 
  
 
-\#\#!German {WORD}
+\#\# !German {WORD}
 
 Prints information about a german word. It is important to remember that Duden
 module is case-sensitive, i.e., 'tisch' will not return a result, but 'Tisch'
@@ -26,7 +26,7 @@ Tisch' will not return a result.
 
  
 
-\#\#!GermVocab {Verbs, Nouns, Adjectives, Custom} {Easy, Medium, Hard} {German,
+\#\# !GermVocab {Verbs, Nouns, Adjectives, Custom} {Easy, Medium, Hard} {German,
 English}
 
 Begins a vocab game with about 30 words being presented in either English or
@@ -39,11 +39,11 @@ channel specifically for this bot.
 
  
 
-\#Running
+\# Running
 
  
 
-\#\#Command Window
+\#\# Command Window
 
 If you decide to run this from your own computer, which is probably the best
 idea, please download the repository, "https://github.com/Potatoconomy/GermBot",
@@ -54,7 +54,7 @@ directory of the GermBot folder.
 
 For me, it looks like:
 
-\`\`\`
+\`\`\`javascript
 
 (Anaconda Prompt):
 
@@ -69,7 +69,7 @@ in the vocabulary lists.
 
  
 
-\#\#Dependencies
+\#\# Dependencies
 
 The following modules are required:
 
@@ -89,7 +89,7 @@ pandas
 
  
 
-\#\#\*\*IMPORTANT\*\*
+\#\# \*\*IMPORTANT\*\*
 
 To get the bot connected to your discord, please follow online instructions
 [https://realpython.com/how-to-make-a-discord-bot-python/]. You will need to
@@ -109,7 +109,3 @@ Replace the respective fields with your unique information. Rename this file to
 
 For further .env reading, please see:
 [\<https://pypi.org/project/python-dotenv/]\>
-
- 
-
- 
