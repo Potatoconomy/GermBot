@@ -56,7 +56,7 @@ discord
 
 numpy
 
-duden  (Version 0.12.2)  Unfortunately, this repository has been updated significantly since I made this project. Shoot me an email and I can send you the correct version that also contains some modifications I made.
+duden  (Version 0.12.2)  Unfortunately, this repository has been updated significantly since I made this project. Shoot me an email camppatrick@gmail and I can send you the correct version that also contains some modifications I made.
 
 asyncio
 
